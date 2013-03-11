@@ -23,23 +23,23 @@ How do I use it?
 ### Keeping up-to-date
 As this set of scripts evolves, you'll want to get the latest and greatest.  To do so, from within your project, run:
 
-    `dt/update`
+    dt/update
 
 ### Dumping the development database
 From your development environment:
 
-    `dt/dbdump`
+    dt/dbdump
 
 ### Dumping a database, and transforming the hostnames
 A very common task is to move from the development environment to the ci environment, and need to adjust the hostnames in the database dump for embedded links in pages, etc.  Assuming you configured the `_environments` files correctly, you can do this:
 
-    `dt/dbmigrate development ci`
+    dt/dbmigrate development ci
 
 That command will dump the database, and translate all instances of the development hostname to the ci hostname.  The db dump will be printed to the screen.  (Note that this task is most often performed automatically at DT on the build server)
 
 ### Importing a database
 Tying everything together here -- you can import a database from stdin with the import script.  Again, assuming you configured the `_environments` files correctly, you can perform an operation like this:
 
-    `dt/dbmigrate development ci | dt/dbimport ci`
+    dt/dbmigrate development ci | dt/dbimport ci
 
 That command will run the migrate script as above, and then import the result into the ci database instance.  (Note that this task is most often performed automatically at DT on the build server)
