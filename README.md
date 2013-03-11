@@ -16,7 +16,7 @@ How do I use it?
 
     `curl -L https://raw.github.com/developertown/dt-wordpress-automation/master/init | bash -s`
 
-    This will initialize a local git repo for the project (if needed), setup some environment files and add this project as a submodule for future use
+    This will initialize a local git repo for the project (if needed), setup some environment files and add this project as a submodule for future use.
 
 3. Configure the environments.  You'll have a newly created subdirectory in your project called `_environments`.  For each contained environment-specific config file, setup the appropriate database and hostname attributes.
 
