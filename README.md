@@ -35,7 +35,7 @@ When you're ready to push your code for a CI deployment, and want to capture the
 
     dt/dbprepareci
 
-This command will dump the development database, fix up the hostnames for CI, and save it in the _environments directory for later import by the build server in the CI environment.
+This command will dump the development database, fix up the hostnames for CI, and save it in the `_environments` directory for later import by the build server in the CI environment.
 
 ### Dumping a database, and transforming the hostnames
 A very common task is to move from the development environment to the ci environment, and need to adjust the hostnames in the database dump for embedded links in pages, etc.  Assuming you configured the `_environments` files correctly, you can do this:
