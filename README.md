@@ -1,9 +1,9 @@
-DevTown Wordpress Automation Scripts
+DevTown WordPress Automation Scripts
 ====================================
 
 What is it?
 -----------
-These are a set of scripts intended to make life easier when dealing with Wordpress applications
+These are a set of scripts intended to make life easier when dealing with WordPress applications
 in a continuous integration environment.  Tasks such as migrating data (including hostname munging)
 and configuring for different environments are managed here.
 
@@ -11,7 +11,7 @@ How do I use it?
 ----------------
 
 ### Initial Setup
-1. If you haven't started your Wordpress app yet, download the latest Wordpress release, and, in your local environment, configure things normally, including your local database environment.
+1. If you haven't started your WordPress app yet, download the latest WordPress release, and, in your local environment, configure things normally, including your local database environment.
 2. Incorporate dt-wordpress-automation by running the following:
     `curl -L https://raw.github.com/developertown/dt-wordpress-automation/master/init | bash -s`
     This will initialize a local git repo for the project (if needed), setup some environment files and add this project as a submodule for future use
