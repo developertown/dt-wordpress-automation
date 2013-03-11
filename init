@@ -66,6 +66,7 @@ function add_dt_submodule {
     $ECHO -n "  Adding DevTown submodule..."
     git submodule add ../dt-wordpress-automation $DT_SUBMODULE_PATH > /dev/null
     git submodule init
+    chmod 700 $DT_SUBMODULE_PATH
     $ECHO "done."
   fi
 
@@ -78,7 +79,10 @@ function make_env_dir {
   if [ ! -d "$ENV_SUBDIR" ]; then
     $ECHO -n "  Creating top-level $ENV_SUBDIR directory..."
     mkdir $ENV_SUBDIR
+    chmod 700 $ENV_SUBDIR
+    echo "deny from all" > $ENV_SUBDIR/.htaccess
     $ECHO "done."
+    git_add_and_commit "Adding $ENV_SUBDIR dir"
   fi
 }
 
