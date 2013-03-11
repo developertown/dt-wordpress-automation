@@ -11,8 +11,8 @@ How do I use it?
 ----------------
 
 ### Initial Setup
-1. If you haven't started your WordPress app yet, download the latest WordPress release, and, in your local environment, configure things normally, including your local database environment.
-2. Incorporate dt-wordpress-automation by running the following:
+1. If you haven't started your WordPress app yet, download the latest WordPress release, and, in your local environment, configure things normally, including your local database environment.  If you're already well along in development on the application, that's OK too, and you're one step ahead.
+2. Incorporate dt-wordpress-automation by running the following from the directory of your WordPress application:
 
     `curl -L https://raw.github.com/developertown/dt-wordpress-automation/master/init | bash -s`
 
