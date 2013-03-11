@@ -64,7 +64,7 @@ function add_dt_submodule {
   git submodule status | grep " $DT_SUBMODULE_PATH " > /dev/null
   if [[ $? != 0 ]]; then
     $ECHO -n "  Adding DevTown submodule..."
-    git submodule add ../dt-wordpress-automation $DT_SUBMODULE_PATH > /dev/null
+    git submodule add git://github.com/developertown/dt-wordpress-automation.git $DT_SUBMODULE_PATH > /dev/null
     git submodule init
     chmod 700 $DT_SUBMODULE_PATH
     $ECHO "done."
