@@ -1,0 +1,153 @@
+#!/bin/sh
+
+# =============================================================================
+# Begin Global Config
+
+ECHO=/bin/echo
+WP_ROOT=`pwd`
+ENV_SUBDIR=_environments
+DT_SUBMODULE_PATH=dt
+
+# End Global Config
+# =============================================================================
+
+
+
+
+
+# =============================================================================
+# Begin Function Definitions
+
+function ensure_cwd_is_wp {
+  if [ ! -f "wp-config-sample.php" ]; then
+    $ECHO "  [ERROR] Please run this script from the root of your Wordpress application"
+    exit
+  fi
+}
+
+function ensure_cfg_is_run {
+  if [ ! -f "wp-config.php" ]; then
+    $ECHO "  [ERROR] Please complete initial Wordpress setup before running this script"
+    exit
+  fi 
+}
+
+function ensure_git_is_clean {
+  #If we have a git repo, and the working dir is dirty...
+  if [ -d ".git" ]; then
+    git status | grep clean 2>&1 > /dev/null
+    if [[ $? != 0 ]]; then
+      $ECHO "  [ERROR] All files must be committed to git before running this script"
+      exit 1
+    fi
+  fi
+}
+
+function git_add_and_commit {
+  $ECHO -n "  Saving progress..."
+  git add -A > /dev/null
+  git commit -m "$1" 2>&1 > /dev/null
+  $ECHO "done."
+}
+
+function create_git_repo {
+  if [ ! -d ".git" ]; then
+    $ECHO -n "  Initializing new git repository..."
+    git init > /dev/null
+    $ECHO "done."
+    git_add_and_commit "Initial Import"
+  fi
+}
+
+function add_dt_submodule {
+  CHANGED=false
+  git submodule status | grep " $DT_SUBMODULE_PATH " > /dev/null
+  if [[ $? != 0 ]]; then
+    $ECHO -n "  Adding DevTown submodule..."
+    git submodule add ../dt-wordpress-automation $DT_SUBMODULE_PATH > /dev/null
+    $ECHO "done."
+  fi
+
+  if [ $CHANGED == true ]; then
+    git_add_and_commit "Adding DevTown submodule"
+  fi
+}
+
+function make_env_dir {
+  if [ ! -d "$ENV_SUBDIR" ]; then
+    $ECHO -n "  Creating top-level $ENV_SUBDIR directory..."
+    mkdir $ENV_SUBDIR
+    $ECHO "done."
+  fi
+}
+
+function make_env_config {
+  CHANGED=false
+  if [ ! -f "$ENV_SUBDIR/$1-config.php" ]; then
+    $ECHO -n "  Creating $ENV_SUBDIR/$1-config.php..."
+    cp wp-config.php "$ENV_SUBDIR/$1-config.php"
+    $ECHO "done."
+    CHANGED=true
+  fi
+
+  if [ ! -f "$ENV_SUBDIR/$1-hostname.php" ]; then
+    $ECHO -n "  Creating $ENV_SUBDIR/$1-hostname.php..."
+    $ECHO "#Set the following to the hostname used in the $1 environment:" > "$ENV_SUBDIR/$1-hostname.php"
+    $ECHO "DEPLOY_HOST=myapp.$1.com" >> "$ENV_SUBDIR/$1-hostname.php"
+    $ECHO "done."
+    CHANGED=true
+  fi
+
+  if [ $CHANGED == true ]; then
+    git_add_and_commit "Created environment config for $1"
+  fi
+}
+
+function instructions {
+  $ECHO
+  $ECHO
+  $ECHO "`tput setaf 2`===== WHAT TO DO NOW`tput sgr0`"
+  $ECHO "  `tput setaf 2`1. Modify the environment files in $ENV_SUBDIR to reflect proper values`tput sgr0`"
+  $ECHO "  `tput setaf 2`2. (That's all)`tput sgr0`"
+  $ECHO
+}
+
+# End Function Definitions
+# =============================================================================
+
+
+
+
+
+# =============================================================================
+# Begin Script Execution
+
+# Make sure we're executing in the right place
+$ECHO "Checking basic environment..."
+ensure_cwd_is_wp
+ensure_cfg_is_run
+ensure_git_is_clean
+
+
+# Make sure we're in a git repo.  If not, we're going to create it
+$ECHO "Checking git configuration..."
+create_git_repo
+
+# Test if the dt submodule is configured
+$ECHO "Checking for DevTown submodule..."
+add_dt_submodule
+
+#Create config files for each environment if they don't exist
+$ECHO "Checking environments directory structure..."
+make_env_dir
+make_env_config "development"
+make_env_config "ci"
+make_env_config "production"
+
+$ECHO
+$ECHO done\!
+
+instructions
+
+# End Script Execution
+# =============================================================================
