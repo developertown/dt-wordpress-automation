@@ -36,7 +36,7 @@ function extract_db_vars {
 }
 
 function hostname_for_env {
-  grep "^DEPLOY_HOST" $ENV_SUBDIR/$1-hostname.php | awk -F "=" '{print $2}'
+  grep "^DEPLOY_HOST" $ENV_SUBDIR/$1-hostname.cfg | awk -F "=" '{print $2}'
 }
 
 function dump {

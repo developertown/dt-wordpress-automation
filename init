@@ -95,10 +95,10 @@ function make_env_config {
     CHANGED=true
   fi
 
-  if [ ! -f "$ENV_SUBDIR/$1-hostname.php" ]; then
-    $ECHO -n "  Creating $ENV_SUBDIR/$1-hostname.php..."
-    $ECHO "#Set the following to the hostname used in the $1 environment:" > "$ENV_SUBDIR/$1-hostname.php"
-    $ECHO "DEPLOY_HOST=myapp.$1.com" >> "$ENV_SUBDIR/$1-hostname.php"
+  if [ ! -f "$ENV_SUBDIR/$1-hostname.cfg" ]; then
+    $ECHO -n "  Creating $ENV_SUBDIR/$1-hostname.cfg..."
+    $ECHO "#Set the following to the hostname used in the $1 environment:" > "$ENV_SUBDIR/$1-hostname.cfg"
+    $ECHO "DEPLOY_HOST=myapp.$1.com" >> "$ENV_SUBDIR/$1-hostname.cfg"
     $ECHO "done."
     CHANGED=true
   fi
