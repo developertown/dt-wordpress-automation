@@ -65,6 +65,7 @@ function add_dt_submodule {
   if [[ $? != 0 ]]; then
     $ECHO -n "  Adding DevTown submodule..."
     git submodule add ../dt-wordpress-automation $DT_SUBMODULE_PATH > /dev/null
+    git submodule init
     $ECHO "done."
   fi
 

@@ -1,0 +1,63 @@
+#!/bin/sh
+
+# =============================================================================
+# Begin Global Config
+
+ECHO=/bin/echo
+WP_ROOT=`pwd`
+
+# End Global Config
+# =============================================================================
+
+
+
+
+
+# =============================================================================
+# Begin Function Definitions
+
+function ensure_cfg_is_run {
+  if [ ! -f "wp-config.php" ]; then
+    $ECHO "  [ERROR] Please complete initial Wordpress setup before running this script"
+    exit
+  fi 
+}
+
+function extract_cfg_var {
+  grep "^define('$1'" wp-config.php | awk -F "'" '{print $4}'
+}
+
+function extract_db_vars {
+  DB_NAME=`extract_cfg_var DB_NAME`
+  DB_HOST=`extract_cfg_var DB_HOST`
+  DB_USER=`extract_cfg_var DB_USER`
+  DB_PASS=`extract_cfg_var DB_PASSWORD`
+}
+
+function dump {
+  if [ -n "$DB_PASS" ]; then
+    PW_ARG="-p$DB_PASS"
+  else
+    PW_ARG=""
+  fi
+  mysqldump -h $DB_HOST -u $DB_USER $PW_ARG $DB_NAME
+}
+
+# End Function Definitions
+# =============================================================================
+
+
+
+
+# =============================================================================
+# Begin Script Execution
+
+# Make sure we're executing in the right place
+ensure_cfg_is_run
+
+extract_db_vars
+
+dump
+
+# End Script Execution
+# =============================================================================

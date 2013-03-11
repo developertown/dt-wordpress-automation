@@ -1,0 +1,73 @@
+#!/bin/sh
+
+# =============================================================================
+# Begin Global Config
+
+ECHO=/bin/echo
+WP_ROOT=`pwd`
+DT_SUBMODULE_PATH=dt
+
+# End Global Config
+# =============================================================================
+
+
+
+
+
+# =============================================================================
+# Begin Function Definitions
+
+function ensure_cwd_is_wp {
+  if [ ! -f "wp-config-sample.php" ]; then
+    $ECHO "  [ERROR] Please run this script from the root of your Wordpress application"
+    exit
+  fi
+}
+
+function ensure_git_is_clean {
+  #If we have a git repo, and the working dir is dirty...
+  if [ -d ".git" ]; then
+    git status | grep clean 2>&1 > /dev/null
+    if [[ $? != 0 ]]; then
+      $ECHO "  [ERROR] All files must be committed to git before running this script"
+      exit 1
+    fi
+  fi
+}
+
+function git_add_and_commit {
+  $ECHO -n "  Saving progress..."
+  git add -A > /dev/null
+  git commit -m "$1" 2>&1 > /dev/null
+  $ECHO "done."
+}
+
+function update_dt_submodule {
+  cd $DT_SUBMODULE_PATH
+  git checkout master > /dev/null
+  git pull > /dev/null
+  cd "$WP_ROOT"
+  git_add_and_commit "Updated DevTown submodule"
+}
+
+# End Function Definitions
+# =============================================================================
+
+
+
+
+
+
+# =============================================================================
+# Begin Script Execution
+
+# Make sure we're executing in the right place
+$ECHO "Checking basic environment..."
+ensure_cwd_is_wp
+ensure_git_is_clean
+
+$ECHO "Updating..."
+update_dt_submodule
+
+# End Script Execution
+# =============================================================================
