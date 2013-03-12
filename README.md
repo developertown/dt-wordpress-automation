@@ -11,12 +11,12 @@ How do I use it?
 ----------------
 
 ### Initial Setup
-1. If you haven't started your WordPress app yet, download the latest WordPress release, and, in your local environment, configure things normally, including your local database environment.
-2. Incorporate dt-wordpress-automation by running the following:
+1. If you haven't started your WordPress app yet, download the latest WordPress release, and, in your local environment, configure things normally, including your local database environment.  If you're already well along in development on the application, that's OK too, and you're one step ahead.
+2. Incorporate dt-wordpress-automation by running the following from the directory of your WordPress application:
 
     `curl -L https://raw.github.com/developertown/dt-wordpress-automation/master/init | bash -s`
 
-    This will initialize a local git repo for the project (if needed), setup some environment files and add this project as a submodule for future use
+    This will initialize a local git repo for the project (if needed), setup some environment files and add this project as a submodule for future use.
 
 3. Configure the environments.  You'll have a newly created subdirectory in your project called `_environments`.  For each contained environment-specific config file, setup the appropriate database and hostname attributes.
 
