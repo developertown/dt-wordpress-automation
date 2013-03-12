@@ -18,7 +18,7 @@ DT_SUBMODULE_PATH=dt
 # Begin Function Definitions
 
 function ensure_cwd_is_wp {
-  if [ ! -f "wp-config.php" ]; then
+  if [ ! -d "wp-content" ]; then
     $ECHO "  [ERROR] Please run this script from the root of your Wordpress application"
     exit
   fi
