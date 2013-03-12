@@ -40,9 +40,9 @@ function dump {
   else
     PW_ARG=""
   fi
-  
+
   MYSQLDUMP="mysqldump"
-  if [ -f "/Applications/MAMP/Library/bin/mysqldump"]; then
+  if [ -f "/Applications/MAMP/Library/bin/mysqldump" ]; then
     MYSQLDUMP="/Applications/MAMP/Library/bin/mysqldump"
   fi
 
