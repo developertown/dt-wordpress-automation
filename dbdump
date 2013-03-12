@@ -40,7 +40,13 @@ function dump {
   else
     PW_ARG=""
   fi
-  mysqldump -h $DB_HOST -u $DB_USER $PW_ARG $DB_NAME
+  
+  MYSQLDUMP="mysqldump"
+  if [ -f "/Applications/MAMP/Library/bin/mysqldump"]; then
+    MYSQLDUMP="/Applications/MAMP/Library/bin/mysqldump"
+  fi
+
+  $MYSQLDUMP -h $DB_HOST -u $DB_USER $PW_ARG $DB_NAME
 }
 
 # End Function Definitions
